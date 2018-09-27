@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "/home/huawei2/.profile"
+source "/home/ssy/.profile"
 
 if [ "$1" == "start-nimbus" ]
 then
