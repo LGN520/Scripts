@@ -122,7 +122,8 @@ map <F4> <leader>ci <CR>
 map <F3> :TagbarToggle<CR>
 
 " Configuration of ctrlsf
-let g:ctrlsf_default_root="~/projects"
+let g:ctrlsf_ackprg = 'ag' " 设置ctrlsf 使用ag
+map <C-F> <Plug>CtrlSFPrompt
 
 "--ctags setting--
 " 按下F5重新生成tag文件，并更新taglist
