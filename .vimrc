@@ -61,6 +61,12 @@ Plugin 'tell-k/vim-autopep8'
 Plugin 'jiangmiao/auto-pairs'
 " nerd commenter
 Plugin 'scrooloose/nerdcommenter'
+" ctrlp.vim
+Plugin 'ctrlpvim/ctrlp.vim'
+" ctrlsf.vim
+Plugin 'dyng/ctrlsf.vim'
+" tagbar
+Plugin 'majutsushi/tagbar'
 call vundle#end()
 filetype plugin indent on
 
@@ -111,3 +117,17 @@ let g:autopep8_disable_show_diff=1
 " Configuration of nerdcommenter
 let mapleader='/'
 map <F4> <leader>ci <CR>
+
+" Configuration of tagbar
+map <F3> :TagbarToggle<CR>
+
+" Configuration of ctrlsf
+let g:ctrlsf_default_root="~/projects"
+
+"--ctags setting--
+" 按下F5重新生成tag文件，并更新taglist
+map <F5> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR> :TlistUpdate<CR>
+imap <F5> <ESC>:!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q.<CR><CR> :TlistUpdate<CR>
+set tags=tags
+set tags+=./tags "add current directory's generated tags file
+set tags+=/usr/lib/tags "add new tags file(刚刚生成tags的路径，在ctags -R 生成tags文件后，不要将tags移动到别的目录，否则ctrl+］时，会提示找不到源码文件)"
