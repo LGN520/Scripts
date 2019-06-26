@@ -8,6 +8,7 @@
 #               algorithm
 #################################################
 
+import sys
 import xlrd
 
 filename = "medical_test.xlsx"
@@ -58,6 +59,7 @@ def get_init_frequent_itemset(buckets):
 
     return init_itemset
 
+# k-frequent itemsets -> candidate (k+1)-frequent itemsets
 def generate_candidate_itemset(items_list):
     tmp_size = len(items_list[0])
 
@@ -92,6 +94,7 @@ def generate_candidate_itemset(items_list):
 
     return result
 
+# Get all of frequent itemsets
 def get_frequent_itemsets(buckets):
     init_frequent_itemset = get_init_frequent_itemset(buckets)
     
@@ -166,6 +169,7 @@ def get_combinations(k, i):
         result.append(tmp)
     return result
 
+# Get all of the rulesets
 def get_ruleset(frequent_itemsets, buckets):
     ruleset = {}
     for k in range(len(frequent_itemsets)):
@@ -195,8 +199,8 @@ def get_ruleset(frequent_itemsets, buckets):
                     # rule: left_items -> right_items
                     left_items = tuple(set(left_items))
                     right_items = tuple(set(right_items))
-                    tmp_support = count / float(len(buckets))
-                    tmp_confidence = frequent_itemsets[len(left_items)-1][left_items] / float(count)
+                    tmp_support = float(count) / len(buckets)
+                    tmp_confidence = float(count) / frequent_itemsets[len(left_items)-1][left_items]
                     if tmp_confidence >= min_confidence:
                         rule_key = (left_items, right_items)
                         rule_value = (tmp_support, tmp_confidence)
@@ -228,11 +232,21 @@ def display_ruleset(ruleset):
         i = i+1
 
 def main():
+    if len(sys.argv) != 2:
+        print("Usage: {} [filename]".format(sys.argv[0]))
+        exit()
+
+    filename = sys.argv[1]
+    print("Filename is: {}".format(filename))
+    print("A priori starts...\n")
+
     values = read_xlsx(filename)
     buckets = split_values(values)
     frequent_itemsets = get_frequent_itemsets(buckets)
     ruleset = get_ruleset(frequent_itemsets, buckets)
     display_ruleset(ruleset)
+
+    print("\nA priori finished!")
 
 if __name__ == '__main__':
     main()
